@@ -1,0 +1,35 @@
+<?php 
+return [
+    'labels' => [
+        'Book' => 'Book',
+        'book' => 'Book',
+    ],
+    'fields' => [
+        'book_frontcover' => '封面',
+        'book_name_ch' => '繪本中文標題',
+        'book_name_en' => '繪本英文標題',
+        'book_author' => '繪本作者',
+        'book_author_id' => '繪本作者id',
+        'style' => 'style參數有10個：1可愛卡通 / 2彩色油畫/ 3梵谷畫風 / 4真實 / 5小說插畫 / 6可愛 / 7五彩繽紛 / 8漫畫 / 9奇幻旅程 / 10RPG，風格參數出圖的prompt會再提供，出圖比例應為直向a4的比例。',
+        'book_verify' => '繪本審核: 0 是未審核、1是已審核。預設為0，之後假管理後台人工審核通過後後會設為1，才能上架到推薦書籍',
+        'book_shelf' => '繪本上架: 0 是未上架、1是已上架。預設為0',
+        'book_state' => '繪本狀態: 0 是未完成、1是已完成。預設為0，使用者編輯到最後一步會設為1',
+        'cover_image_1' => '可選的封面封底: 第1張',
+        'cover_image_2' => '可選的封面封底: 第2張',
+        'cover_image_3' => '可選的封面封底: 第3張',
+        'cover_image_4' => '可選的封面封底: 第4張',
+        'preface' => '作者的話',
+        'book_backcover' => '封底',
+        'story_main' => '放在封底的簡介',
+        'book_share' => '0=不分享 | 1=分享',
+        'book_free' => '0=不收費 | 1=收費',
+        'book_like' => '點讚數量',
+        'book_recommend' => '後台設定 0=不推薦 | 1=推薦',
+        'user_input' => '原始中文內容',
+        'en_user_input' => '原始英文內容',
+        'book_point' => '繪本價格',
+        'preview_page' => '預覽頁面',
+    ],
+    'options' => [
+    ],
+];

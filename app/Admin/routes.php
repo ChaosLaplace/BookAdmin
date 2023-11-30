@@ -14,4 +14,6 @@ Route::group([
 
     $router->get('/', 'HomeController@index');
 
+    $router->get('/book', 'BookController@index');
+    $router->put('/book/{id?}', 'BookController@saveBook');
 });

@@ -6,8 +6,6 @@ use App\Admin\Metrics\Examples;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\BookUser;
-
 use Dcat\Admin\Http\Controllers\Dashboard;
 use Dcat\Admin\Layout\Column;
 use Dcat\Admin\Layout\Content;
@@ -17,9 +15,6 @@ class HomeController extends Controller
 {
     public function index(Content $content)
     {
-        // $test = BookUser::query()->get()->toArray();
-        // return json_encode($test);
-
         return $content
             ->header('Dashboard')
             ->description('Description...')
