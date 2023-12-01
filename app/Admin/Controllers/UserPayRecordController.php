@@ -24,7 +24,17 @@ class UserPayRecordController extends AdminController
             $grid->column('user_point');
             $grid->column('user_payment');
             $grid->column('user_payment_firm');
-            $grid->column('user_payment_status');
+            // 狀態 0=未付款 | 1=已付款 | 2=失敗
+            $grid->column('user_payment_status')
+            ->using([0 => '未付款', 1 => '已付款', 2 => '失敗'])
+            ->dot(
+                [
+                    0 => 'primary',
+                    1 => 'success',
+                    2 => 'danger'
+                ]
+            );
+
             $grid->column('user_point_before');
             $grid->column('user_point_after');
             $grid->column('created_at');
@@ -42,6 +52,8 @@ class UserPayRecordController extends AdminController
             $grid->disableViewButton();
             // 禁用刪除
             $grid->disableDeleteButton();
+            // 禁止
+            $grid->toolsWithOutline(false);
         });
     }
 

@@ -45,6 +45,8 @@ class BookUserController extends AdminController
             $grid->disableViewButton();
             // 禁用刪除
             $grid->disableDeleteButton();
+            // 禁止
+            $grid->toolsWithOutline(false);
         });
     }
 

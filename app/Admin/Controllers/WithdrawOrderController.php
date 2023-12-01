@@ -7,7 +7,11 @@ use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
+use Dcat\Admin\Http\JsonResponse;
 
+use Illuminate\Http\Request;
+
+use App\Models\WithdrawOrder as BookWithdrawOrder;
 class WithdrawOrderController extends AdminController
 {
     /**
@@ -24,7 +28,9 @@ class WithdrawOrderController extends AdminController
             $grid->column('phone');
             $grid->column('book_point');
             $grid->column('payment');
-            $grid->column('status');
+            // 0=審核中 | 1=已轉帳
+            $grid->column('status')->switch('', true);
+
             $grid->column('user_point_before');
             $grid->column('user_point_after');
             $grid->column('created_at');
@@ -42,6 +48,8 @@ class WithdrawOrderController extends AdminController
             $grid->disableViewButton();
             // 禁用刪除
             $grid->disableDeleteButton();
+            // 禁止
+            $grid->toolsWithOutline(false);
         });
     }
 
@@ -90,5 +98,20 @@ class WithdrawOrderController extends AdminController
             $form->display('created_at');
             $form->display('updated_at');
         });
+    }
+
+    protected function saveWithdrawOrder(Request $request, $id)
+    {
+        $content   = $request->all();
+        $inputData = [];
+        // 更新審核
+        if ( isset($content['status']) ) {
+            $inputData['status'] = $content['status'];
+        }
+
+        if ( BookWithdrawOrder::query()->where('id', $id)->update($inputData) ) {
+            return JsonResponse::make()->success('更新成功！');
+        }
+        return JsonResponse::make()->error('更新失敗');
     }
 }

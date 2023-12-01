@@ -23,4 +23,5 @@ Route::group([
     $router->get('/finance/buy', 'BookOrderController@index');
     $router->get('/finance/income', 'BookIncomeController@index');
     $router->get('/finance/withdraw', 'WithdrawOrderController@index');
+    $router->put('/finance/withdraw/{id?}', 'WithdrawOrderController@saveWithdrawOrder');
 });
