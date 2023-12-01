@@ -92,6 +92,7 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection book_author_id
      * @property Grid\Column|Collection style
      * @property Grid\Column|Collection book_verify
+     * @property Grid\Column|Collection book_shelf
      * @property Grid\Column|Collection book_state
      * @property Grid\Column|Collection cover_image_1
      * @property Grid\Column|Collection cover_image_2
@@ -209,6 +210,7 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection book_author_id(string $label = null)
      * @method Grid\Column|Collection style(string $label = null)
      * @method Grid\Column|Collection book_verify(string $label = null)
+     * @method Grid\Column|Collection book_shelf(string $label = null)
      * @method Grid\Column|Collection book_state(string $label = null)
      * @method Grid\Column|Collection cover_image_1(string $label = null)
      * @method Grid\Column|Collection cover_image_2(string $label = null)
@@ -331,6 +333,7 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection book_author_id
      * @property Show\Field|Collection style
      * @property Show\Field|Collection book_verify
+     * @property Show\Field|Collection book_shelf
      * @property Show\Field|Collection book_state
      * @property Show\Field|Collection cover_image_1
      * @property Show\Field|Collection cover_image_2
@@ -448,6 +451,7 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection book_author_id(string $label = null)
      * @method Show\Field|Collection style(string $label = null)
      * @method Show\Field|Collection book_verify(string $label = null)
+     * @method Show\Field|Collection book_shelf(string $label = null)
      * @method Show\Field|Collection book_state(string $label = null)
      * @method Show\Field|Collection cover_image_1(string $label = null)
      * @method Show\Field|Collection cover_image_2(string $label = null)

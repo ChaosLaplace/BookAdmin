@@ -6,9 +6,9 @@ use Dcat\Admin\Traits\HasDateTimeFormatter;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BookOrder extends Model
+class WithdrawOrder extends Model
 {
 	use HasDateTimeFormatter;
-    protected $table      = 'book_orders';
+    protected $table      = 'withdraw_orders';
     protected $connection = 'mysql_book';
 }
