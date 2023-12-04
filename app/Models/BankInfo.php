@@ -6,14 +6,14 @@ use Dcat\Admin\Traits\HasDateTimeFormatter;
 
 use Illuminate\Database\Eloquent\Model;
 
-class WithdrawOrder extends Model
+class BankInfo extends Model
 {
 	use HasDateTimeFormatter;
-    protected $table      = 'withdraw_orders';
+    protected $table      = 'bank_infos';
     protected $connection = 'mysql_book';
 
-    public function bankInfo()
+    public function withdrawOrder()
     {
-        return $this->hasOne(BankInfo::class, 'id');
+        return $this->belongsTo(WithdrawOrder::class);
     }
 }

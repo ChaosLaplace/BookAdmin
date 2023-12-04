@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\WithdrawOrder;
+
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -12,6 +13,7 @@ use Dcat\Admin\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 use App\Models\WithdrawOrder as BookWithdrawOrder;
+use App\Models\BankInfo;
 class WithdrawOrderController extends AdminController
 {
     /**
@@ -21,10 +23,19 @@ class WithdrawOrderController extends AdminController
      */
     protected function grid()
     {
-        return Grid::make(new WithdrawOrder(), function (Grid $grid) {
+        return Grid::make(new WithdrawOrder(['bankInfo']), function (Grid $grid) {
             $grid->column('id')->sortable();
             $grid->column('parent_id');
-            $grid->column('bank_id');
+
+            $grid->column('bankInfo.bank_country');
+            $grid->column('bankInfo.bank_swift');
+            $grid->column('bankInfo.bank_name');
+            $grid->column('bankInfo.bank_code');
+            $grid->column('bankInfo.bank_branch_code');
+            $grid->column('bankInfo.bank_branch_addr');
+            $grid->column('bankInfo.bank_account');
+            $grid->column('bankInfo.bank_number');
+
             $grid->column('phone');
             $grid->column('book_point');
             $grid->column('payment');
@@ -113,5 +124,13 @@ class WithdrawOrderController extends AdminController
             return JsonResponse::make()->success('更新成功！');
         }
         return JsonResponse::make()->error('更新失敗');
+    }
+
+    protected static function getBankValue($userId, $fild = '')
+    {
+        $where = [
+            'id' => $userId
+        ];
+        return BankInfo::query()->where($where)->value($fild);
     }
 }
