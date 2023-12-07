@@ -13,12 +13,12 @@ namespace Dcat\Admin {
     /**
      * @property Grid\Column|Collection id
      * @property Grid\Column|Collection name
-     * @property Grid\Column|Collection type
      * @property Grid\Column|Collection version
-     * @property Grid\Column|Collection detail
+     * @property Grid\Column|Collection is_enabled
      * @property Grid\Column|Collection created_at
      * @property Grid\Column|Collection updated_at
-     * @property Grid\Column|Collection is_enabled
+     * @property Grid\Column|Collection type
+     * @property Grid\Column|Collection detail
      * @property Grid\Column|Collection parent_id
      * @property Grid\Column|Collection order
      * @property Grid\Column|Collection icon
@@ -42,6 +42,9 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection payload
      * @property Grid\Column|Collection exception
      * @property Grid\Column|Collection failed_at
+     * @property Grid\Column|Collection file_type
+     * @property Grid\Column|Collection file_title
+     * @property Grid\Column|Collection file_content
      * @property Grid\Column|Collection email
      * @property Grid\Column|Collection token
      * @property Grid\Column|Collection tokenable_type
@@ -131,12 +134,12 @@ namespace Dcat\Admin {
      *
      * @method Grid\Column|Collection id(string $label = null)
      * @method Grid\Column|Collection name(string $label = null)
-     * @method Grid\Column|Collection type(string $label = null)
      * @method Grid\Column|Collection version(string $label = null)
-     * @method Grid\Column|Collection detail(string $label = null)
+     * @method Grid\Column|Collection is_enabled(string $label = null)
      * @method Grid\Column|Collection created_at(string $label = null)
      * @method Grid\Column|Collection updated_at(string $label = null)
-     * @method Grid\Column|Collection is_enabled(string $label = null)
+     * @method Grid\Column|Collection type(string $label = null)
+     * @method Grid\Column|Collection detail(string $label = null)
      * @method Grid\Column|Collection parent_id(string $label = null)
      * @method Grid\Column|Collection order(string $label = null)
      * @method Grid\Column|Collection icon(string $label = null)
@@ -160,6 +163,9 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection payload(string $label = null)
      * @method Grid\Column|Collection exception(string $label = null)
      * @method Grid\Column|Collection failed_at(string $label = null)
+     * @method Grid\Column|Collection file_type(string $label = null)
+     * @method Grid\Column|Collection file_title(string $label = null)
+     * @method Grid\Column|Collection file_content(string $label = null)
      * @method Grid\Column|Collection email(string $label = null)
      * @method Grid\Column|Collection token(string $label = null)
      * @method Grid\Column|Collection tokenable_type(string $label = null)
@@ -254,12 +260,12 @@ namespace Dcat\Admin {
     /**
      * @property Show\Field|Collection id
      * @property Show\Field|Collection name
-     * @property Show\Field|Collection type
      * @property Show\Field|Collection version
-     * @property Show\Field|Collection detail
+     * @property Show\Field|Collection is_enabled
      * @property Show\Field|Collection created_at
      * @property Show\Field|Collection updated_at
-     * @property Show\Field|Collection is_enabled
+     * @property Show\Field|Collection type
+     * @property Show\Field|Collection detail
      * @property Show\Field|Collection parent_id
      * @property Show\Field|Collection order
      * @property Show\Field|Collection icon
@@ -283,6 +289,9 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection payload
      * @property Show\Field|Collection exception
      * @property Show\Field|Collection failed_at
+     * @property Show\Field|Collection file_type
+     * @property Show\Field|Collection file_title
+     * @property Show\Field|Collection file_content
      * @property Show\Field|Collection email
      * @property Show\Field|Collection token
      * @property Show\Field|Collection tokenable_type
@@ -372,12 +381,12 @@ namespace Dcat\Admin {
      *
      * @method Show\Field|Collection id(string $label = null)
      * @method Show\Field|Collection name(string $label = null)
-     * @method Show\Field|Collection type(string $label = null)
      * @method Show\Field|Collection version(string $label = null)
-     * @method Show\Field|Collection detail(string $label = null)
+     * @method Show\Field|Collection is_enabled(string $label = null)
      * @method Show\Field|Collection created_at(string $label = null)
      * @method Show\Field|Collection updated_at(string $label = null)
-     * @method Show\Field|Collection is_enabled(string $label = null)
+     * @method Show\Field|Collection type(string $label = null)
+     * @method Show\Field|Collection detail(string $label = null)
      * @method Show\Field|Collection parent_id(string $label = null)
      * @method Show\Field|Collection order(string $label = null)
      * @method Show\Field|Collection icon(string $label = null)
@@ -401,6 +410,9 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection payload(string $label = null)
      * @method Show\Field|Collection exception(string $label = null)
      * @method Show\Field|Collection failed_at(string $label = null)
+     * @method Show\Field|Collection file_type(string $label = null)
+     * @method Show\Field|Collection file_title(string $label = null)
+     * @method Show\Field|Collection file_content(string $label = null)
      * @method Show\Field|Collection email(string $label = null)
      * @method Show\Field|Collection token(string $label = null)
      * @method Show\Field|Collection tokenable_type(string $label = null)

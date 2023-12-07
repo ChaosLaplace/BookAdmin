@@ -125,12 +125,4 @@ class WithdrawOrderController extends AdminController
         }
         return JsonResponse::make()->error('更新失敗');
     }
-
-    protected static function getBankValue($userId, $fild = '')
-    {
-        $where = [
-            'id' => $userId
-        ];
-        return BankInfo::query()->where($where)->value($fild);
-    }
 }
