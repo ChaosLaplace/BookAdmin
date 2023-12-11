@@ -9,15 +9,15 @@ use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
-use Dcat\Admin\Traits\HasUploadedFile;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
+use Fukuball\Jieba\Jieba;
+use Fukuball\Jieba\Finalseg;
+
 class FileComparisonController extends AdminController
 {
-    use HasUploadedFile;
-
     /**
      * Make a grid builder.
      *
@@ -30,24 +30,38 @@ class FileComparisonController extends AdminController
             $grid->column('file_title');
             $grid->column('file_type');
             $grid->column('file_content');
-            $grid->column('created_at');
-            $grid->column('updated_at')->sortable();
+            $grid->column('created_at')->sortable();
         
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-        
             });
-
             // 禁用
             $grid->disableActions();
-            // 禁用創建
-            // $grid->disableCreateButton(); 
             // 禁用顯示
             $grid->disableViewButton();
             // 禁用刪除
             $grid->disableDeleteButton();
             // 禁止
             $grid->toolsWithOutline(false);
+            // 計畫內容分析
+            $grid->quickSearch(function ($model, $query) {
+                if ( isset($query) && $query !== '' ) {
+                    ini_set('memory_limit', '2048M');
+                    // 繁體 詳情參考 https://github.com/fukuball/jieba-php
+                    Jieba::init( array('mode'=>'default','dict'=>'big') );
+                    Finalseg::init();
+                    $seg_list = Jieba::cut($query, false);
+                    Log::info('中文分詞 : ' . json_encode($seg_list, JSON_UNESCAPED_UNICODE) );
+
+                    $orWhere = [];
+                    foreach ($seg_list as $v) {
+                        $orWhere[] = ['file_content', 'like', "%{$v}%"];
+                    }
+
+                    $model->where('file_content', $query)->orWhere($orWhere);
+                    Log::info('計畫內容分析 : ' . json_encode($orWhere, JSON_UNESCAPED_UNICODE)) ;
+                }
+            })->placeholder('計畫內容分析')->auto(false);
         });
     }
 
@@ -88,6 +102,12 @@ class FileComparisonController extends AdminController
      */
     public function upload(Request $request)
     {
+        $disk = $this->disk('public');
+        // 刪除文件
+        if ( $this->isDeleteRequest() ) {
+            return $this->deleteFileAndResponse($disk);
+        }
+
         if ( $request->hasFile('_file_') ) {
             try {
                 // 文件
@@ -96,12 +116,19 @@ class FileComparisonController extends AdminController
                 $filename  = $file->getClientOriginalName();
                 $filename  = explode('.' . $extension, $filename);
                 $filename  = $filename['0']; 
+                // 判斷副檔名
+                switch ($extension) {
+                    case 'doc':
+                        return $this->responseErrorMessage('文件不可上傳 .doc, 請手動轉檔成 .docx');
+                    break;
+                    default:
+                    break;
+                }
 
-                $disk      = $this->disk('public');
-                $dir       = 'FileComparison/' . Date('Ymd');
-                $newName   = $filename . '.' .  $extension;
-                $result    = $disk->putFileAs($dir, $file, $newName);
-                $path      = "{$dir}/$newName";
+                $dir     = 'FileComparison/' . Date('Ymd');
+                $newName = $filename . '.' .  $extension;
+                $result  = $disk->putFileAs($dir, $file, $newName);
+                $path    = "{$dir}/$newName";
                 Log::info('文件上傳 : ' . json_encode($result));
 
                 if ($result) {
@@ -111,10 +138,40 @@ class FileComparisonController extends AdminController
                         'file_type'  => $extension,
                     ];
                     if ( !ModelFileComparison::where($where)->exists() ) {
-                        Log::info('文件內容轉檔');  
-                        return $this->responseUploaded($path, $disk->url($path));
+                        // Load the Word file
+                        $file_path     = storage_path('app') . '/public/' . $dir;
+                        $new_file      = $file_path . '/' . $filename;
+                        $new_file_name = $new_file . '.' . $extension;
+                        Log::info('file_path -> ' . $file_path);
+                        Log::info('new_file -> ' . $new_file);
+                        Log::info('new_file_name -> ' . $new_file_name);
+                        // WORD => HTML
+                        $word   = new \PhpOffice\PhpWord\Reader\Word2007;
+                        Log::info('文件內容轉檔2 -> ' . $new_file_name);
+                        $result = $word->load($new_file_name);
+                        $write  = new \PhpOffice\PhpWord\Writer\HTML($result);
+                        $write->save($new_file . '.html');
+                        // HTML 內容
+                        $document = new \DOMDocument();
+                        $document->loadHTML( file_get_contents( $new_file . '.html' ) );
+                        $html     = simplexml_import_dom($document);
+                        $html     = json_encode($html, JSON_UNESCAPED_UNICODE);
+                        $html     = str_replace(' ', '', $html);
+
+                        $data     = [
+                            'file_title'   => $filename,
+                            'file_type'    => $extension,
+                            'file_content' => $html,
+                        ];
+                        if ( ModelFileComparison::insert($data) ) {
+                            Log::info('文件內容轉檔成功');
+                            return $this->responseUploaded($path, $disk->url($path));
+                        }                        
                     }
-                    Log::info('文件已存在 : ' . json_encode($result));                
+                    else {
+                        Log::info('文件已存在 : ' . json_encode($result));
+                        return $this->responseErrorMessage('文件已存在 : ' . $filename . '.' . $extension); 
+                    }
                 }
                 
                 return $this->responseErrorMessage('文件上傳失敗');

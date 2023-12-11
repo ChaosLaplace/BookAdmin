@@ -29,10 +29,11 @@ Route::group([
 
     // 檔案列表
     $router->get('/file/list', 'FileComparisonController@index');
-    // 檔案上傳
-    $router->any('/file/upload', 'FileComparisonController@upload');
-    // 上傳檔案並把內容存入資料庫
+    // 多文件上傳頁面
     $router->get('/file/list/create', 'FileComparisonController@create');
+    // 檔案上傳並把內容存入資料庫
+    $router->any('/file/upload', 'FileComparisonController@upload');
+    
     // 計畫內容分析(於資料庫比對歷年計畫內容, 找相似) 並生成報告提供下載
     $router->get('/file/comparison', 'FileComparisonController@comparison');
     // 設定偏好
